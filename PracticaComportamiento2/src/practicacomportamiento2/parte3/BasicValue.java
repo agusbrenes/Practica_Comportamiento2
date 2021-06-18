@@ -10,16 +10,29 @@ public class BasicValue extends Component {
    
    @Override
    public void operation() {
-       System.out.println("Se ha ejecutado una operación con " + super.name);
+       System.out.println("Se ha ejecutado una operación con " + this.name);
    }
-   
-   @Override
-   public double getPrice() {
-       return this.price;
-   }
-   
-   @Override
-   public String getInfo() {
-       return "Value Name: " + super.name;
-   }
+
+    @Override
+    public void setSuccesor(Component c) {
+        this.succesor = c;
+    }
+
+    @Override
+    public double getPrice(double actualPrice) {
+        actualPrice += this.price;
+        if (this.succesor == null) {
+            return actualPrice;
+        }
+        return this.succesor.getPrice(actualPrice);
+    }
+
+    @Override
+    public String getInfo(String actualInfo) {
+        actualInfo += "Value Name: " + this.name + "\n";
+        if (this.succesor == null) {
+            return actualInfo;
+        }
+        return this.succesor.getInfo(actualInfo);
+    }
 }
