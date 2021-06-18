@@ -17,27 +17,29 @@ public class CompositeValue extends Component {
     @Override
     public void operation() {
         System.out.println("Performing operation in " + super.name);
-        //I REFUSE TO JAVASCRIPT
         for (Component sc : subComponents) {
             sc.operation();
         }
     }
 
     @Override
-    public double getPrice() {
-        double finalPrice = 0.0;
-        for (Component sc : subComponents) {
-            finalPrice += sc.getPrice();
+    public double getPrice(double actualPrice) {
+        if (this.succesor == null) {
+            return actualPrice;
         }
-        return finalPrice;
+        return this.succesor.getPrice(actualPrice);
     }
 
     @Override
-    public String getInfo() {
-        String s = "Composite Value: " + super.name + "\n" + "Has the following subvalues:\n";
-        for (Component sc: subComponents) {
-            s += sc.getInfo() + "\n";
+    public String getInfo(String actualInfo) {
+        if (this.succesor == null) {
+            return actualInfo;
         }
-        return s;
+        return actualInfo + "Composite Value: " + this.name + "\n" + "Has the following subvalues:\n" + this.succesor.getInfo("");
+    }
+
+    @Override
+    public void setSuccesor(Component c) {
+        this.succesor = c;
     }
 }
